@@ -116,7 +116,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'  # staticファイルへのURL
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # collectstatic コマンドで収集する場所
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # collectstatic コマンドで収集する場所
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # WhiteNoise
 
 # Default primary key field type
