@@ -15,7 +15,7 @@ if not SECRET_KEY:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 環境変数から DEBUG を取得。設定されていない場合は False (本番環境)
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'False'
 
 # ALLOWED_HOSTS は Vercel の URL を設定
 ALLOWED_HOSTS = ['yoshi-nakane0-github-io-ai-nexus-studio.vercel.app']
