@@ -1,24 +1,24 @@
 import os
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent().parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# 環境変数から SECRET_KEY を取得。設定されていない場合はエラーにする
-SECRET_KEY = os.environ.get("SECRET_KEY")
-if not SECRET_KEY:
-    raise ValueError("SECRET_KEY environment variable must be set in production")
+# --- SECRET_KEY 設定 (ここが重要) ---
+try:
+    SECRET_KEY = os.environ["SECRET_KEY"]
+except KeyError:
+    raise ImproperlyConfigured("The SECRET_KEY environment variable must be set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# 環境変数から DEBUG を取得。設定されていない場合は False (本番環境)
 DEBUG = os.environ.get('DEBUG', 'False') == 'False'
 
-# ALLOWED_HOSTS は Vercel の URL を設定　ローカルでもデバッグできるように修正
-ALLOWED_HOSTS = ['yoshi-nakane0-github-io-ai-nexus-studio.vercel.app','127.0.0.1', 'localhost']
+# ALLOWED_HOSTS は Vercel の URL とローカルホストを設定
+ALLOWED_HOSTS = ['yoshi-nakane0-github-io-ai-nexus-studio.vercel.app', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -30,18 +30,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dashboard',
-    'schedule',
-    'prompt',
-    'earning',
-    'target',
-    'control',
-    'trending',
+    'dashboard',  # あなたのアプリケーション
+    'schedule',   # あなたのアプリケーション
+    'prompt',     # あなたのアプリケーション
+    'earning',    # あなたのアプリケーション
+    'target',     # あなたのアプリケーション
+    'control',    # あなたのアプリケーション
+    'trending',   # あなたのアプリケーション
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise を追加
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise を追加 (静的ファイル配信用)
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'myproject2.urls'
+ROOT_URLCONF = 'myproject2.urls'  # あなたのプロジェクトの urls.py を指定
 
 TEMPLATES = [
     {
@@ -68,11 +68,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myproject2.wsgi.application'
+WSGI_APPLICATION = 'myproject2.wsgi.application'  # あなたのプロジェクトの wsgi.py を指定
 
 # Database
-# Vercel でよく使用される PostgreSQL を例として設定
-# 環境変数からデータベース情報を取得
 # 簡略化のため、SQLiteを使用。PostgreSQLの設定はコメントアウト
 DATABASES = {
     'default': {
@@ -80,7 +78,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# DATABASES = {
+# DATABASES = { # PostgreSQLを使用する場合（Vercel Postgres integrationを使う場合）
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql',
 #        'NAME': os.environ.get('POSTGRES_DB'),
@@ -124,9 +122,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'  # staticファイルへのURL
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # collectstatic コマンドで収集する場所
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # WhiteNoise
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
