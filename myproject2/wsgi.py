@@ -13,4 +13,5 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject2.settings')
 
-application = get_wsgi_application()
+# Vercel が認識できるように、変数名を 'application' から 'handler' に変更
+handler = get_wsgi_application()

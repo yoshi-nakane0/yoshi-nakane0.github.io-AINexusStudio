@@ -3,7 +3,7 @@ from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent  # ここを修正
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -15,7 +15,11 @@ except KeyError:
     raise ImproperlyConfigured("The SECRET_KEY environment variable must be set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'False'
+# --- DEBUG 設定 (修正) ---
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'  # 'True' (文字列) と比較するように変更
+# または、より簡潔に:
+# DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+
 
 # ALLOWED_HOSTS は Vercel の URL とローカルホストを設定
 ALLOWED_HOSTS = ['yoshi-nakane0-github-io-ai-nexus-studio.vercel.app', '127.0.0.1', 'localhost']
@@ -123,6 +127,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# --- STATICFILES_DIRS 設定 (追加) ---
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # プロジェクトルートの 'static' フォルダを指す
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
