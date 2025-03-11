@@ -17,8 +17,9 @@ if not SECRET_KEY:
 # 環境変数から DEBUG を取得。設定されていない場合は False (本番環境)
 DEBUG = os.environ.get('DEBUG', 'False') == 'False'
 
-# ALLOWED_HOSTS は Vercel の URL を設定
-ALLOWED_HOSTS = ['yoshi-nakane0-github-io-ai-nexus-studio.vercel.app']
+# ALLOWED_HOSTS は Vercel の URL を設定　ローカルでもデバッグできるように修正
+ALLOWED_HOSTS = ['yoshi-nakane0-github-io-ai-nexus-studio.vercel.app','127.0.0.1', 'localhost']
+
 
 # Application definition
 
@@ -72,16 +73,24 @@ WSGI_APPLICATION = 'myproject2.wsgi.application'
 # Database
 # Vercel でよく使用される PostgreSQL を例として設定
 # 環境変数からデータベース情報を取得
+# 簡略化のため、SQLiteを使用。PostgreSQLの設定はコメントアウト
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': os.environ.get('POSTGRES_DB'),
-       'USER': os.environ.get('POSTGRES_USER'),
-       'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-       'HOST': os.environ.get('POSTGRES_HOST'),
-       'PORT': os.environ.get('POSTGRES_PORT', '5432'), # PostgreSQLのデフォルトポート
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': os.environ.get('POSTGRES_DB'),
+#        'USER': os.environ.get('POSTGRES_USER'),
+#        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#        'HOST': os.environ.get('POSTGRES_HOST'),
+#        'PORT': os.environ.get('POSTGRES_PORT', '5432'), # PostgreSQLのデフォルトポート
+#    }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -1,0 +1,10 @@
+.vercelignore
+.DS_Store
+.git
+node_modules
+venv
+.venv
+*.pyc
+__pycache__
+/static/build/  # ビルド生成物など
+/media/uploads/ # アップロードされたファイルなど(必要に応じて)
